@@ -128,3 +128,57 @@ function backup_vm
 	return 0
 }
 
+function get_vm_vdi
+{
+	log_message "Get VDI $1"
+	vm_vbds=`get_vm_vbds $1`
+	
+	if [ $? -ne 0 ]; then
+		log_message "get_vm_vbds failed: $vm_vbds"
+		return 1
+	fi
+	
+	vdi_uuids=()
+	
+	for uuid in $vm_vbds; do
+	
+		log_message "VBD $uuid"
+		vbd_type=`get_vbd_type $uuid`
+		
+		if [ $? -ne 0 ]; then
+			log_message "get_vbd_type failed: $vbd_type"
+			break
+		fi
+		
+		if [ $vbd_type != "CD" ]; then
+			
+			vdi_uuid=`get_vbd_vdi_list $uuid`
+			
+			if [ $? -ne 0 ]; then
+				log_message "get_vbd_vdi_list failed: $vdi_uuid"
+				break
+			else
+				log_message "VDI: $vdi_uuid"
+			fi
+			
+			vdi_snapshot=`check_vdi_is_snapshot $vdi_uuid`
+			
+			if [ $? -ne 0 ]; then
+				log_message "check_vdi_is_snapshot failed: $vdi_snapshot"
+				break
+			fi
+			
+			log_message "Add VDI to deletion list: $vdi_uuid"
+			
+			vdi_uuids[${#vdi_uuids[@]}]=$vdi_uuid
+			
+		else
+			log_message "VDI is a CD, skipping: $uuid"
+		fi
+		
+	done
+	
+	echo ${vdi_uuids[@]}
+	return 0
+}
+
