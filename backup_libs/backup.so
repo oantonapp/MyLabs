@@ -220,5 +220,91 @@ function get_vbd_type
 	echo "$echo"
 	return 0
 }
+function get_vbd_vdi_list
+{
+	log_message "Get VBD VDI list $1"
+	echo=`xe vdi-list vbd-uuids=$1 2>>$log_path`
+	
+	if [ $? -ne 0 ]; then
+		return 1
+	fi
+	
+	echo "$echo" | grep ^uuid | awk '{print $NF}'
+	return 0
+}
 
 
+#
+# check_vdi_is_snapshot
+# Check a VDI is for a snapshot
+# @use check_vdi_is_snapshot "uuid"
+# @param string	uuid
+# @return boolean
+#
+
+function check_vdi_is_snapshot
+{
+	log_message "Check VDI is a snapshot $1"
+	echo=`xe vdi-param-get param-name=is-a-snapshot uuid=$1 2>>$log_path`
+	
+	if [ $? -ne 0 ]; then
+		return 1
+	fi
+	
+	echo "$echo"
+	return 0
+}
+
+
+#
+# snapshot_vm
+# Snapshot a VM with quiesce if possible
+# @use snapshot_vm "uuid"
+# @param string	uuid
+# @param string	label
+# @return boolean
+#
+
+function snapshot_vm
+{
+	log_message "Snapshotting VM $1"
+	snapshot_uuid=`snapshot_vm_quiesce $1 $2`
+	
+	if [ $? -ne 0 ]; then
+		log_message "Quiesce snapshot failed: $snapshot_uuid"
+		log_message "Attempting normal snapshot"
+		snapshot_uuid=`snapshot_vm_normal $1 $2`
+		
+		if [ $? -ne 0 ]; then
+			log_message "Normal snapshot failed: $snapshot_uuid"
+			return 1
+		fi
+		
+	fi
+	
+	echo $snapshot_uuid
+	return 0
+}
+
+
+#
+# snapshot_vm_normal
+# Snapshot a VM
+# @use snapshot_vm_normal "uuid" "label"
+# @param string	uuid
+# @param string	label
+# @return boolean
+#
+
+function snapshot_vm_normal
+{
+	log_message "Snapshot $1 as $2"
+	echo=`xe vm-snapshot vm=$1 new-name-label=$2 2>>$log_path`
+	
+	if [ $? -ne 0 ]; then
+		return 1
+	fi
+	
+	echo "$echo"
+	return 0
+}
