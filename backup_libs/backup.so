@@ -14,6 +14,14 @@ function log_enable
 	log_message "Starting VM Backup"
 	log_message "------------------------------------------"
 }
+
+#
+# log_message
+# Add message to the log
+# @use log_message "message"
+# @param string	Message
+# @return void
+#
 function log_message
 {
 	`echo "[$(date +%Y-%m-%d_%H-%M-%S)] $1" &>>$log_path`
