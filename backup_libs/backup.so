@@ -515,3 +515,22 @@ function destroy_vdi
 	echo "$echo"
 	return 0
 }
+
+
+function remove_old_backups
+ {
+        remove_dir="$backup_directory/$HOSTNAME/$year/$mon"
+        for uuid in ${vm_backup_list[@]}; 
+        do
+                vds=`get_vm_label $uuid`
+                vds_quantity=$(find "$remove_dir" -name "$vds-$year-$mon-*" | xargs stat -c "%Y %n" 2>> /dev/null | wc -l)
+                if [ $vds_quantity -gt $conserved_vds_quantity ]; then          
+                        let "vds_remove_quantity = $vds_quantity - $conserved_vds_quantity"
+                        removing_backup="$(find "$remove_dir" -name "$vds-$year-$mon-*" | xargs stat -c "%Y %n" 2>> $log_path | sort -n | head -"$vds_remove_quantity" | cut -d ' ' -f2 )"
+                        rm -f $removing_backup
+                        for_log=$(echo "removing backup --> $removing_backup" | tr '\n' ' ')
+                        log_message "$for_log"
+                fi
+        done
+ }
+
