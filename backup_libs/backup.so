@@ -6,7 +6,7 @@
 # @use log_enable
 # @return void
 #
-#
+
 function log_enable
 {
 #	vm_log=()
@@ -15,6 +15,7 @@ function log_enable
 	log_message "------------------------------------------"
 }
 
+
 #
 # log_message
 # Add message to the log
@@ -22,10 +23,13 @@ function log_enable
 # @param string	Message
 # @return void
 #
+
 function log_message
 {
 	`echo "[$(date +%Y-%m-%d_%H-%M-%S)] $1" &>>$log_path`
 }
+
+
 #
 # add_to_backup_list
 # Add a new VM to the backup list
@@ -33,35 +37,57 @@ function log_message
 # @param string	VM uuid
 # @return void
 #
+
 function add_to_backup_list
 {
 	log_message "Add to backup list: $1"
 	vm_backup_list[${#vm_backup_list[@]}]=$1
+#echo vm_backup_list[${#vm_backup_list[@]}]=$1
 }
+
+
 #
 # reset_backup_list
 # Remove all VMs from the backup list
 # @use reset_backup_list
 # @return void
 #
+
 function reset_backup_list
 {
 	log_message "Reset backup list"
 	vm_backup_list=()
 }
 
+
+#
+# get_running_vms
+# Return array of running VM uuids
+# @use get_running_vms
+# @return array
+#
+
 function get_running_vms
 {
 	log_message "Get running VMs"
 	echo=`xe vm-list power-state=running is-control-domain=false 2>>$log_path`
-
+	
 	if [ $? -ne 0 ]; then
 		return 1
 	fi
-
+	
 	echo "$echo" | grep "uuid" | awk '{print $NF}'
 	return 0
 }
+
+
+#
+# set_running_vms
+# Set running VMs in backup list
+# @use set_running_vms
+# @return void
+#
+
 function set_running_vms
 {
 	log_message "Set running VMs"
@@ -78,12 +104,68 @@ function set_running_vms
 	return 0
 }
 
+
+#
+# get_all_vms
+# Return array of all VM uuids
+# @use get_all_vms
+# @return array
+#
+
+function get_all_vms
+{
+	log_message "Get all VMs"
+	echo=`xe vm-list is-control-domain=false 2>>$log_path`
+	
+	if [ $? -ne 0 ]; then
+		return 1
+	fi
+	
+	echo "$echo" | grep "uuid" | awk '{print $NF}'
+	return 0
+}
+
+
+#
+# set_all_vms
+# Set all VMs in backup list
+# @use set_all_vms
+# @return void
+#
+
+function set_all_vms
+{
+	log_message "Set all VMs"
+	reset_backup_list
+	
+	all_vms=`get_all_vms`
+	
+	if [ $? -ne 0 ]; then
+		log_message "get_all_vms failed: $all_vms"
+		return 1
+	fi
+	
+	for uuid in $all_vms; do
+		add_to_backup_list $uuid
+	done
+	
+	return 0
+}
+
+
+#
+# backup_vm_list
+# Backup VMs in vm_backup_list
+# @use backup_vm_list
+# @return void
+#
+
 function backup_vm_list
 {
 	log_message "Initialise backup of VM list"
-
+	
 	for uuid in ${vm_backup_list[@]}; do
-
+	
 		backup_vm $uuid
 		if [ $? -ne 0 ]; then
 			log_message "VM $uuid backup failed"
@@ -93,69 +175,108 @@ function backup_vm_list
 	done
 }
 
+#
+# backup_vm
+# Backup a VM
+# @use backup_vm "uuid"
+# @param string	uuid
+# @return void
+#
+
 function backup_vm
 {
 	log_message "Backup VM $1"
-
+	
 	vm_label=`get_vm_label $1`
-
+	
 	if [ $? -ne 0 ]; then
 		log_message "get_vm_label failed: $vm_label"
 		return 1
 	else
 		log_message "get_vm_label succeeded: $vm_label"
 	fi
-
+	
 	snapshot_name=$vm_label"_snapshot"
 	export_name=$vm_label"-"$date".xva"
-
+	
 	snapshot=`snapshot_vm $1 $snapshot_name`
-
+	
 	if [ $? -ne 0 ]; then
 		log_message "snapshot_vm failed: $snapshot"
 		return 2
 	else
 		log_message "snapshot_vm succeeded: $snapshot"
 	fi
-
+	
 	remove_template_result=`remove_template $snapshot`
-
+	
 	if [ $? -ne 0 ]; then
 		log_message "remove_template failed: $remove_template_result"
 		return 3
 	else
 		log_message "remove_template succeeded: $remove_template_result"
 	fi
-
+	
 	disable_ha_result=`disable_ha $snapshot`
-
+	
 	if [ $? -ne 0 ]; then
 		log_message "disable_ha failed: $disable_ha_result"
 		return 4
 	else
 		log_message "disable_ha succeeded: $disable_ha_result"
 	fi
-
+	
 	export_vm_result=`export_vm $snapshot $export_name`
-
+	
 	if [ $? -ne 0 ]; then
 		log_message "export_vm failed: $export_vm_result"
 		return 5
 	else
 		log_message "export_vm succeeded: $export_vm_result"
 	fi
-
+	
 	delete_vm_result=`delete_vm $snapshot`
-
+	
 	if [ $? -ne 0 ]; then
 		log_message "delete_vm failed: $delete_vm_result"
 		return 6
 	else
 		log_message "delete_vm succeeded: $delete_vm_result"
 	fi
-
+	
 	return 0
 }
+
+
+#
+# get_vm_label
+# Return a VM label
+# @use get_vm_label "uuid"
+# @param string	uuid
+# @return string
+#
+
+function get_vm_label
+{
+	log_message "Get VM label $1"
+	echo=`xe vm-param-get param-name=name-label uuid=$1 2>>$log_path`
+	
+	if [ $? -ne 0 ]; then
+		return 1
+	fi
+	
+	echo "$echo" | tr ' ' _ | tr -d '(' | tr -d ')'
+	return 0
+}
+
+
+#
+# get_vm_vdi
+# Return a VM VDI uuid
+# @use get_vm_vdi "uuid"
+# @param string	uuid
+# @return string
+#
 
 function get_vm_vdi
 {
@@ -211,23 +332,19 @@ function get_vm_vdi
 	return 0
 }
 
-function check_vdi_is_snapshot
-{
-	log_message "Check VDI is a snapshot $1"
-	echo=`xe vdi-param-get param-name=is-a-snapshot uuid=$1 2>>$log_path`
-	
-	if [ $? -ne 0 ]; then
-		return 1
-	fi
-	
-	echo "$echo"
-	return 0
-}
 
-function get_vbd_vdi_list
+#
+# get_vm_vbds
+# Return a VM VBD uuid list
+# @use get_vm_vbd "uuid"
+# @param string	uuid
+# @return array
+#
+
+function get_vm_vbds
 {
-	log_message "Get VBD VDI list $1"
-	echo=`xe vdi-list vbd-uuids=$1 2>>$log_path`
+	log_message "Get VBD $1"
+	echo=`xe vbd-list vm-uuid=$1 2>>$log_path`
 	
 	if [ $? -ne 0 ]; then
 		return 1
@@ -237,18 +354,37 @@ function get_vbd_vdi_list
 	return 0
 }
 
+
+#
+# get_vbd_type
+# Return VBD type
+# @use get_vbd_type "uuid"
+# @param string	uuid
+# @return string
+#
+
 function get_vbd_type
 {
 	log_message "Get VBD type $1"
 	echo=`xe vbd-param-get param-name=type uuid=$1 2>>$log_path`
-
+	
 	if [ $? -ne 0 ]; then
 		return 1
 	fi
-
+	
 	echo "$echo"
 	return 0
 }
+
+
+#
+# get_vbd_vdi_list
+# Return VDI uuids for VBD
+# @use get_vbd_vdi_list "uuid"
+# @param string	uuid
+# @return array
+#
+
 function get_vbd_vdi_list
 {
 	log_message "Get VBD VDI list $1"
@@ -352,11 +488,11 @@ function snapshot_vm_quiesce
 {
 	log_message "Snapshot with quiesce $1 as $2"
 	echo=`xe vm-snapshot-with-quiesce vm=$1 new-name-label=$2 2>>$log_path`
-
+	
 	if [ $? -ne 0 ]; then
 		return 1
 	fi
-
+	
 	echo "$echo"
 	return 0
 }
@@ -375,11 +511,11 @@ function export_vm
 {
 	log_message "Export VM $1 as $2"
 	echo=`xe vm-export vm=$1 filename="$backup_dir/$2" 2>>$log_path`
-
+	
 	if [ $? -ne 0 ]; then
 		return 1
 	fi
-
+	
 	echo "$echo"
 	return 0
 }
@@ -397,11 +533,11 @@ function disable_ha
 {
 	log_message "Disable HA $1"
 	echo=`xe template-param-set ha-always-run=false uuid=$1 2>>$log_path`
-
+	
 	if [ $? -ne 0 ]; then
 		return 1
 	fi
-
+	
 	echo "$echo"
 	return 0
 }
@@ -413,6 +549,8 @@ function disable_ha
 # @use remove_template "uuid"
 # @param string	uuid
 # @return boolean
+#
+
 function remove_template
 {
 	log_message "Remove template status $1"
@@ -515,6 +653,52 @@ function destroy_vdi
 	echo "$echo"
 	return 0
 }
+######################################################################################################
+
+function create_backup_folder
+{
+        backup_dir="$backup_directory/$HOSTNAME/$year/$mon/$day"
+        mkdir -p $backup_dir 2> log_message
+}
+
+function check_backup_cifs
+{
+        mount_san=$(df -h | grep -c $backup_directory)
+        if [ "$mount_san" -eq 0 ] ; then
+#               logger Storage mount ERROR -p user.error -t `basename "$0"`
+#echo "Storage mount ERROR"
+                log_message "Storage mount ERROR"
+                exit 1
+        fi
+}
+
+function add_to_backup_list_tag
+ {
+        create_backup_folder
+#echo "function add_to_backup_list_tag"
+	if [ $used_pool == true ]; then
+		pool_param="pool"
+	else
+		pool_param="host"
+	fi
+
+        pool=$(xe $pool_param-list params=uuid --minimal 2> /dev/null)
+#        backup=$(xe pool-param-get uuid=${pool} param-name=other-config param-key=$backup_tag 2> /dev/null)
+        pool_tags=$(xe $pool_param-param-get uuid=${pool} param-name=tags 2> /dev/null)
+        if [ $? -eq 0 ] && ([[ ${pool_tags} == *$backup_tag* ]]); then
+           VDS_UUID_ARRAY=`xe vm-list | grep uuid | awk '{ print $5 }'`
+           for f in $VDS_UUID_ARRAY
+                do
+			vm_tags=$(xe vm-param-get uuid=${f} param-name=tags 2> /dev/null)
+                        if [ $? -eq 0 ] && ([[ ${vm_tags} == *$backup_tag* ]]); then
+				add_to_backup_list ${f} 
+#echo "${f}"
+                        fi
+                done
+#        else
+#echo "${pool_tags}"
+	fi
+ }
 
 
 function remove_old_backups
@@ -533,4 +717,5 @@ function remove_old_backups
                 fi
         done
  }
+
 
