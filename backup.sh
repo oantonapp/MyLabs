@@ -3,9 +3,6 @@
 # Set backup directory
 backup_directory="/mnt/VDS_BACKUP"
 
-# Set backup tag
-backup_tag="backup_mon"
-
 ## USE POOL or Standalone
 #true false
 used_pool=false
