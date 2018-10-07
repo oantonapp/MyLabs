@@ -1,0 +1,50 @@
+function log_enable
+{
+#	vm_log=()
+	log_message ""
+	log_message "Starting VM Backup"
+	log_message "------------------------------------------"
+}
+function log_message
+{
+	`echo "[$(date +%Y-%m-%d_%H-%M-%S)] $1" &>>$log_path`
+}
+function add_to_backup_list
+{
+	log_message "Add to backup list: $1"
+	vm_backup_list[${#vm_backup_list[@]}]=$1
+}
+
+function reset_backup_list
+{
+	log_message "Reset backup list"
+	vm_backup_list=()
+}
+
+function get_running_vms
+{
+	log_message "Get running VMs"
+	echo=`xe vm-list power-state=running is-control-domain=false 2>>$log_path`
+
+	if [ $? -ne 0 ]; then
+		return 1
+	fi
+
+	echo "$echo" | grep "uuid" | awk '{print $NF}'
+	return 0
+}
+function set_running_vms
+{
+	log_message "Set running VMs"
+	reset_backup_list
+	running_vms=`get_running_vms`
+	if [ $? -ne 0 ]; then
+		log_message "get_running_vms failed: $running_vms"
+		return 1
+	fi
+	
+	for uuid in $running_vms; do
+		add_to_backup_list $uuid
+	done
+	return 0
+}
