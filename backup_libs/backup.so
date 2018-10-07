@@ -48,3 +48,83 @@ function set_running_vms
 	done
 	return 0
 }
+
+function backup_vm_list
+{
+	log_message "Initialise backup of VM list"
+
+	for uuid in ${vm_backup_list[@]}; do
+
+		backup_vm $uuid
+		if [ $? -ne 0 ]; then
+			log_message "VM $uuid backup failed"
+		else
+			log_message "VM $uuid backup succeeded"
+		fi
+	done
+}
+
+function backup_vm
+{
+	log_message "Backup VM $1"
+
+	vm_label=`get_vm_label $1`
+
+	if [ $? -ne 0 ]; then
+		log_message "get_vm_label failed: $vm_label"
+		return 1
+	else
+		log_message "get_vm_label succeeded: $vm_label"
+	fi
+
+	snapshot_name=$vm_label"_snapshot"
+	export_name=$vm_label"-"$date".xva"
+
+	snapshot=`snapshot_vm $1 $snapshot_name`
+
+	if [ $? -ne 0 ]; then
+		log_message "snapshot_vm failed: $snapshot"
+		return 2
+	else
+		log_message "snapshot_vm succeeded: $snapshot"
+	fi
+
+	remove_template_result=`remove_template $snapshot`
+
+	if [ $? -ne 0 ]; then
+		log_message "remove_template failed: $remove_template_result"
+		return 3
+	else
+		log_message "remove_template succeeded: $remove_template_result"
+	fi
+
+	disable_ha_result=`disable_ha $snapshot`
+
+	if [ $? -ne 0 ]; then
+		log_message "disable_ha failed: $disable_ha_result"
+		return 4
+	else
+		log_message "disable_ha succeeded: $disable_ha_result"
+	fi
+
+	export_vm_result=`export_vm $snapshot $export_name`
+
+	if [ $? -ne 0 ]; then
+		log_message "export_vm failed: $export_vm_result"
+		return 5
+	else
+		log_message "export_vm succeeded: $export_vm_result"
+	fi
+
+	delete_vm_result=`delete_vm $snapshot`
+
+	if [ $? -ne 0 ]; then
+		log_message "delete_vm failed: $delete_vm_result"
+		return 6
+	else
+		log_message "delete_vm succeeded: $delete_vm_result"
+	fi
+
+	return 0
+}
+
