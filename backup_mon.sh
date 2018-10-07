@@ -17,12 +17,21 @@ conserved_vds_quantity=3
 #true false
 used_pool=false
 
+### Checking the day of the week
+check_day=true
+#false
+#true 
+#Set the day of the week when backup is enabled
+day_of_week="Sat"
+
 ################################################################
 # Which VMs to backup. Possible values are:
 # "all" - Backup all VMs
 # "running" - Backup all running VMs
 # "list" - Backup all VMs in the backup list (see below) or existing backup tag
 # "none" - Don't backup any VMs, this is the default
+# "tag"  -  Backup VMs whith backup tag
+backup_vms="tag"
 # VM backup list
 #add_to_backup_list "661dcff6-ee79-59a0-efe8-c5d9998071ce"
 ################################################################
@@ -30,6 +39,13 @@ used_pool=false
 # include libs
 dir=`dirname $0`/backup_libs
 source $dir"/backup.so"
+
+# Start backup only in Saturday
+today=$(date |  awk '{ print $1 }')
+if [ $check_day == true ] && [ "$today" != $day_of_week ]; then
+#	echo "STOP today not $day_of_week"
+       	exit 0
+fi
 
 # Enable logging
 # Remove to disable logging
@@ -58,6 +74,11 @@ case $backup_vms in
                 log_message "Backup list VMs"
                 backup_vm_list
                 ;;
+         "tag")
+                log_message "Backup tag VMs"
+                add_to_backup_list_tag
+                ;;
+
         *)
                 log_message "Backup no VMs"
                 reset_backup_list
@@ -67,4 +88,9 @@ esac
 
 # Start VM BACKUP
 backup_vm_list
+
+# DELETE VM Bckups
+if [ $conserved_vds_quantity != 0 ];then
+	remove_old_backups
+fi
 
