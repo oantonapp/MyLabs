@@ -182,3 +182,43 @@ function get_vm_vdi
 	return 0
 }
 
+function check_vdi_is_snapshot
+{
+	log_message "Check VDI is a snapshot $1"
+	echo=`xe vdi-param-get param-name=is-a-snapshot uuid=$1 2>>$log_path`
+	
+	if [ $? -ne 0 ]; then
+		return 1
+	fi
+	
+	echo "$echo"
+	return 0
+}
+
+function get_vbd_vdi_list
+{
+	log_message "Get VBD VDI list $1"
+	echo=`xe vdi-list vbd-uuids=$1 2>>$log_path`
+	
+	if [ $? -ne 0 ]; then
+		return 1
+	fi
+	
+	echo "$echo" | grep ^uuid | awk '{print $NF}'
+	return 0
+}
+
+function get_vbd_type
+{
+	log_message "Get VBD type $1"
+	echo=`xe vbd-param-get param-name=type uuid=$1 2>>$log_path`
+
+	if [ $? -ne 0 ]; then
+		return 1
+	fi
+
+	echo "$echo"
+	return 0
+}
+
+
