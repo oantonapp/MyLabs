@@ -308,3 +308,80 @@ function snapshot_vm_normal
 	echo "$echo"
 	return 0
 }
+
+
+#
+# snapshot_vm_quiesce
+# Snapshot a VM with quiesce
+# @use snapshot_vm_quiesce "uuid" "label"
+# @param string	uuid
+# @param string	label
+# @return boolean
+#
+
+function snapshot_vm_quiesce
+{
+	log_message "Snapshot with quiesce $1 as $2"
+	echo=`xe vm-snapshot-with-quiesce vm=$1 new-name-label=$2 2>>$log_path`
+
+	if [ $? -ne 0 ]; then
+		return 1
+	fi
+
+	echo "$echo"
+	return 0
+}
+
+
+#
+# export_vm
+# Export a VM to a destination file
+# @use export_vm "uuid" "filename.xva"
+# @param string	uuid
+# @param string	filename
+# @return boolean
+#
+
+function export_vm
+{
+	log_message "Export VM $1 as $2"
+	echo=`xe vm-export vm=$1 filename="$backup_dir/$2" 2>>$log_path`
+
+	if [ $? -ne 0 ]; then
+		return 1
+	fi
+
+	echo "$echo"
+	return 0
+}
+
+
+#
+# disable_ha
+# Disable high availability
+# @use disable_ha "uuid"
+# @param string	uuid
+# @return boolean
+#
+
+function disable_ha
+{
+	log_message "Disable HA $1"
+	echo=`xe template-param-set ha-always-run=false uuid=$1 2>>$log_path`
+
+	if [ $? -ne 0 ]; then
+		return 1
+	fi
+
+	echo "$echo"
+	return 0
+}
+
+
+#
+# remove_template
+# Remove template param from VM
+# @use remove_template "uuid"
+# @param string	uuid
+# @return boolean
+#
