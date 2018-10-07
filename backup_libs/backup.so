@@ -38,7 +38,12 @@ function add_to_backup_list
 	log_message "Add to backup list: $1"
 	vm_backup_list[${#vm_backup_list[@]}]=$1
 }
-
+#
+# reset_backup_list
+# Remove all VMs from the backup list
+# @use reset_backup_list
+# @return void
+#
 function reset_backup_list
 {
 	log_message "Reset backup list"
