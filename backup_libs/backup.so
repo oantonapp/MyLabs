@@ -26,6 +26,13 @@ function log_message
 {
 	`echo "[$(date +%Y-%m-%d_%H-%M-%S)] $1" &>>$log_path`
 }
+#
+# add_to_backup_list
+# Add a new VM to the backup list
+# @use add_to_backup_list "uuid"
+# @param string	VM uuid
+# @return void
+#
 function add_to_backup_list
 {
 	log_message "Add to backup list: $1"
