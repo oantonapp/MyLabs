@@ -384,4 +384,105 @@ function disable_ha
 # @use remove_template "uuid"
 # @param string	uuid
 # @return boolean
+function remove_template
+{
+	log_message "Remove template status $1"
+	echo=`xe template-param-set is-a-template=false uuid=$1 2>>$log_path`
+	
+	if [ $? -ne 0 ]; then
+		return 1
+	fi
+	
+	echo "$echo"
+	return 0
+}
+
+
 #
+# delete_vm
+# Delete a VM
+# @use delete_vm "uuid"
+# @param string	uuid
+# @return boolean
+#
+
+function delete_vm
+{
+	log_message "Delete VM $1"
+	
+	vdi_uuid=`get_vm_vdi $1`
+	
+	if [ $? = 0 ] && [ ${#vdi_uuid[@]} > 0 ]; then
+		
+		for uuid in $vdi_uuid; do
+		
+			destroy_vdi_result=`destroy_vdi $uuid`
+
+			if [ $? -ne 0 ]; then
+					log_message "Cannot destroy: $vdi_uuid"
+			else
+					log_message "VDI destroyed: $vdi_uuid"
+			fi
+			
+		done
+		
+	else
+	
+			log_message "Cannot get VDI uuid: $vdi_uuid"
+
+	fi
+	
+	vm_uninstall_result=`uninstall_vm $1`
+	
+	if [ $? -ne 0 ]; then
+		log_message "Cannot uninstall VM: $vm_uninstall_result"
+		return 1
+	fi
+	
+	return 0
+	
+}
+
+
+#
+# uninstall_vm
+# Uninstall (remove) a VM
+# @use uninstall_vm "uuid"
+# @param string	uuid
+# @return boolean
+#
+
+function uninstall_vm
+{
+	log_message "Uninstall VM $1"
+	echo=`xe vm-uninstall force=true uuid=$1 2>>$log_path`
+	
+	if [ $? -ne 0 ]; then
+		return 1
+	fi
+	
+	echo "$echo"
+	return 0
+}
+
+
+#
+# destroy_vdi
+# Destroy a VDI
+# @use destroy_vdi "uuid"
+# @param string	uuid
+# @return boolean
+#
+
+function destroy_vdi
+{
+	log_message "Destroy VDI $1"
+	echo=`xe vdi-destroy uuid=$1 2>>$log_path`
+	
+	if [ $? -ne 0 ]; then
+		return 1
+	fi
+	
+	echo "$echo"
+	return 0
+}
