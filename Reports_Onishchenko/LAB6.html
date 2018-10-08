@@ -1,0 +1,637 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <meta name="generator" content="bashdoc" />
+  <link href="https://fonts.googleapis.com/css?family=Lora:400,400italic|Work+Sans:300,400,500,600" rel="stylesheet" type="text/css"/>
+
+  <title></title>
+  <style type="text/css">
+table.sourceCode, tr.sourceCode, td.lineNumbers, td.sourceCode {
+  margin: 0; padding: 0; vertical-align: baseline; border: none; }
+table.sourceCode { width: 100%; line-height: 100%; }
+td.lineNumbers { text-align: right; padding-right: 4px; padding-left: 4px; color: #aaaaaa; border-right: 1px solid #aaaaaa; }
+td.sourceCode { padding-left: 5px; }
+code > span.kw { color: #0000ff; }
+code > span.ch { color: #008080; }
+code > span.st { color: #008080; }
+code > span.co { color: #008000; }
+code > span.ot { color: #ff4000; }
+code > span.al { color: #ff0000; }
+code > span.er { font-weight: bold; }
+  </style>
+  <style>
+  * {
+      -webkit-box-sizing: border-box;
+      -moz-box-sizing: border-box;
+      box-sizing: border-box;
+      margin-top: 0;
+  }
+      html, div, body { margin:0; padding:0; }
+      #toc {
+        width: 25%;
+        margin:50px 0 0 0;
+        padding:0 2%;
+        float: left;
+        background: #3E4042;
+        color: #dadada;
+      }
+      body {
+      font-family: "Work sans", Helvetica, Arial, sans-serif;
+      font-size: 15px;
+      line-height: 1.4;
+      background: #3E4042;
+      }
+  
+      h1,h2,h3,h4,h5,h6 {
+        font-family: "Work sans","Helvetica Neue", Helvetica, Arial, sans-serif;
+        font-weight: 500;
+      }
+  
+      #toc ul { padding:0; margin:0; }
+      #toc > ul > li { margin-bottom: 2em; }
+      #toc li { list-style: none; padding-left:0; }
+      #toc ul ul { padding-left: 1.25em; }
+      #toc code { display:none; }
+      #toc a {
+        color: #dadada;
+        text-decoration: none;
+      }
+      #toc a:hover {
+        color: #fff;
+      }
+      #content {
+        padding: 50px 5% 50px 5%;
+        margin:0 0 0 25%;
+        background: #fff;
+      }
+  
+      .section pre {
+        border-radius: 10px;
+        border:1px solid #dadada;
+        background: #ededed;
+        width:100%;
+        padding:5px;
+        font-family: monospace;
+        font-size:120%
+      }
+  
+      pre.sourceCode {
+        border-radius: 0;
+        border: 0;
+        background: none;
+        padding-top:10px;
+        width: 100%;
+        font-size: 90%;
+      }
+  
+      .module .section {
+        padding-left: 2em;
+      }
+  
+      .module .section p::first-letter {
+        text-transform: capitalize;
+      }
+  
+      .module h4 { margin-bottom:0 !important; }
+  
+      p { 
+        width: 80%;
+        text-align: justify;
+      }
+  
+      .module p {
+        padding-left: 1em;
+        color: #555;
+        font-style: italic;
+      }
+  
+    .module h2 { margin-bottom:0.2em; margin-top: 2.5em;}
+    .module h2:before {
+       content: "module";
+       color: #888;
+       font-family: monospace;
+       font-size: 90%;
+       padding-right:0.4em;
+    }
+  
+    .module h3:before {
+       content: "function";
+       color: #888;
+       font-family: monospace;
+       font-size: 90%;
+       padding-right:0.4em;
+    }
+  
+    .module dl {
+      padding: 0.5em;
+    }
+    .module dt {
+      display: inline-block;
+      min-width: 125px;
+      font-weight: bold;
+      color: #333;
+    }
+    .module dd:after {
+      display: block;
+      content: "";
+    }
+    .module dt:after {
+      content: ":";
+    }
+    .module dd {
+      display: inline;
+      margin: 0;
+    }
+    .module h3 code {
+      font-size: 80%;
+      color: #555;
+    }
+  
+    hr { margin-top:2em; margin-bottom: 2em; border:1px solid #555;
+    background: none; }
+    div.sourceCode { width: 100% !important; }
+    td.lineNumbers { padding-left:0 !important; }
+    .sourceCode pre { margin-bottom:0 !important; }
+    .sourceCode { margin-bottom: 0.5em !important; }
+  
+  
+  h1 code,h2 code,h3 code,h4 code,.section p code, dl code {
+    background: none !important;
+    color: #555 !important;
+  }
+  </style>
+<body class="book toc2 toc-left">
+<div id="toc" class="toc2">
+<ul>
+<li><a href="#api-reference-mylabsbackup_mon">API Reference (MyLabs/backup_mon)</a><ul>
+<li><a href="#backup_mon.sh">Backup_mon.sh</a><ul>
+<li><a href="#main_backup_mon.sh">MAIN_Backup_mon.sh</a></li>
+</ul></li>
+</ul></li>
+<li><a href="#api-reference-mylabsbackup_libsbackup">API Reference (MyLabs/backup_libs/backup)</a><ul>
+<li><a href="#backup.so">backup.so</a><ul>
+<li><a href="#log_enable">log_enable</a></li>
+<li><a href="#log_message">log_message</a></li>
+<li><a href="#add_to_backup_list">add_to_backup_list</a></li>
+<li><a href="#reset_backup_list">reset_backup_list</a></li>
+<li><a href="#get_running_vms">get_running_vms</a></li>
+<li><a href="#set_running_vms">set_running_vms</a></li>
+<li><a href="#get_all_vms">get_all_vms</a></li>
+<li><a href="#set_all_vms">set_all_vms</a></li>
+<li><a href="#backup_vm_list">backup_vm_list</a></li>
+<li><a href="#backup_vm">backup_vm</a></li>
+<li><a href="#get_vm_label">get_vm_label</a></li>
+<li><a href="#get_vm_vdi">get_vm_vdi</a></li>
+<li><a href="#get_vm_vbds">get_vm_vbds</a></li>
+<li><a href="#get_vbd_type">get_vbd_type</a></li>
+<li><a href="#get_vbd_vdi_list">get_vbd_vdi_list</a></li>
+<li><a href="#check_vdi_is_snapshot">check_vdi_is_snapshot</a></li>
+<li><a href="#snapshot_vm">snapshot_vm</a></li>
+<li><a href="#snapshot_vm_normal">snapshot_vm_normal</a></li>
+<li><a href="#snapshot_vm_quiesce">snapshot_vm_quiesce</a></li>
+<li><a href="#export_vm">export_vm</a></li>
+<li><a href="#disable_ha">disable_ha</a></li>
+<li><a href="#remove_template">remove_template</a></li>
+<li><a href="#delete_vm">delete_vm</a></li>
+<li><a href="#uninstall_vm">uninstall_vm</a></li>
+<li><a href="#destroy_vdi">destroy_vdi</a></li>
+<li><a href="#create_backup_folder">create_backup_folder</a></li>
+<li><a href="#check_backup_cifs">check_backup_cifs</a></li>
+<li><a href="#add_to_backup_list_tag">add_to_backup_list_tag</a></li>
+<li><a href="#remove_old_backups">remove_old_backups</a></li>
+</ul></li>
+</ul></li>
+</ul>
+</div>
+<div id="content">
+<div id="api-reference-mylabsbackup_mon" class="section level1">
+<h1>API Reference (MyLabs/backup_mon)</h1>
+<div id="backup_mon.sh" class="section level2 module">
+<h2>Backup_mon.sh</h2>
+<p>This is main module</p>
+<div id="main_backup_mon.sh" class="section level3 function">
+<h3>MAIN_Backup_mon.sh</h3>
+<div id="environment-variables" class="section level4">
+<h4>Environment variables</h4>
+<p><code>Var</code> : backup_directory</p>
+<p>Set backup directory</p>
+</div>
+<div id="environment-variables-1" class="section level4">
+<h4>Environment variables</h4>
+<p><code>Var</code> : backup_tag</p>
+<p>Set backup tag</p>
+</div>
+<div id="environment-variables-2" class="section level4">
+<h4>Environment variables</h4>
+<p><code>Var</code> : log_path</p>
+<p>Set log path</p>
+</div>
+<div id="environment-variables-3" class="section level4">
+<h4>Environment variables</h4>
+<p><code>Var</code> : conserved_vds_quantity</p>
+<p>Set the number of conserved VDS per month Set 0 (zero) if you do not delete anything</p>
+</div>
+<div id="environment-variables-4" class="section level4">
+<h4>Environment variables</h4>
+<p><code>Var</code> : used_pool</p>
+<p>USE POOL or Standalone</p>
+</div>
+<div id="parameters" class="section level4">
+<h4>Parameters</h4>
+<p><code>bool</code> : true or false</p>
+</div>
+<div id="environment-variables-5" class="section level4">
+<h4>Environment variables</h4>
+<p><code>Var</code> : check_day</p>
+<p>Checking the day of the week</p>
+</div>
+<div id="parameters-1" class="section level4">
+<h4>Parameters</h4>
+<p><code>bool</code> : true or false</p>
+</div>
+<div id="environment-variables-6" class="section level4">
+<h4>Environment variables</h4>
+<p><code>Var</code> : day_of_week</p>
+<p>Set the day of the week when backup is enabled</p>
+<p>template: “Sat”</p>
+</div>
+<div id="environment-variables-7" class="section level4">
+<h4>Environment variables</h4>
+<p><code>Var</code> : backup_vms</p>
+<p>Which VMs to backup. Possible values are:</p>
+<p>“all” - Backup all VMs</p>
+<p>“running” - Backup all running VMs</p>
+<p>“list” - Backup all VMs in the backup list (see below) or existing backup tag</p>
+<p>“none” - Don’t backup any VMs, this is the default</p>
+<p>“tag” - Backup VMs whith backup tag</p>
+<hr />
+</div>
+</div>
+</div>
+</div>
+<div id="api-reference-mylabsbackup_libsbackup" class="section level1">
+<h1>API Reference (MyLabs/backup_libs/backup)</h1>
+<div id="backup.so" class="section level2 module">
+<h2>backup.so</h2>
+<div id="log_enable" class="section level3 function">
+<h3>log_enable</h3>
+<p>Enable and start logging</p>
+<div id="usage-example" class="section level4">
+<h4>Usage example</h4>
+<pre class="sourceCode bash"><code class="sourceCode bash"><span class="kw">log_enable</span></code></pre>
+</div>
+<div id="parameters-2" class="section level4">
+<h4>Parameters</h4>
+<p><code>return</code> : void</p>
+</div>
+</div>
+<div id="log_message" class="section level3 function">
+<h3>log_message</h3>
+<p>Add message to the log</p>
+<div id="usage-example-1" class="section level4">
+<h4>Usage example</h4>
+<pre class="sourceCode bash"><code class="sourceCode bash"><span class="kw">log_message</span> <span class="st">&quot;message&quot;</span></code></pre>
+</div>
+<div id="parameters-3" class="section level4">
+<h4>Parameters</h4>
+<p><code>string</code> : string: Message</p>
+<p><code>return</code> : void</p>
+</div>
+</div>
+<div id="add_to_backup_list" class="section level3 function">
+<h3>add_to_backup_list</h3>
+<p>Add a new VM to the backup list</p>
+<div id="usage-example-2" class="section level4">
+<h4>Usage example</h4>
+<pre class="sourceCode bash"><code class="sourceCode bash"><span class="kw">add_to_backup_list</span> <span class="st">&quot;uuid&quot;</span></code></pre>
+</div>
+<div id="parameters-4" class="section level4">
+<h4>Parameters</h4>
+<p><code>string</code> : string: VM uuid</p>
+<p><code>return</code> : void</p>
+</div>
+</div>
+<div id="reset_backup_list" class="section level3 function">
+<h3>reset_backup_list</h3>
+<p>Remove all VMs from the backup list</p>
+<div id="usage-example-3" class="section level4">
+<h4>Usage example</h4>
+<pre class="sourceCode bash"><code class="sourceCode bash"><span class="kw">reset_backup_list</span></code></pre>
+</div>
+<div id="parameters-5" class="section level4">
+<h4>Parameters</h4>
+<p><code>return</code> : void</p>
+</div>
+</div>
+<div id="get_running_vms" class="section level3 function">
+<h3>get_running_vms</h3>
+<p>Return array of running VM uuids</p>
+<div id="usage-example-4" class="section level4">
+<h4>Usage example</h4>
+<pre class="sourceCode bash"><code class="sourceCode bash"><span class="kw">get_running_vms</span></code></pre>
+</div>
+<div id="parameters-6" class="section level4">
+<h4>Parameters</h4>
+<p><code>return</code> : array</p>
+</div>
+</div>
+<div id="set_running_vms" class="section level3 function">
+<h3>set_running_vms</h3>
+<p>Set running VMs in backup list</p>
+<div id="usage-example-5" class="section level4">
+<h4>Usage example</h4>
+<pre class="sourceCode bash"><code class="sourceCode bash"><span class="kw">set_running_vms</span></code></pre>
+</div>
+<div id="parameters-7" class="section level4">
+<h4>Parameters</h4>
+<p><code>return</code> : void</p>
+</div>
+</div>
+<div id="get_all_vms" class="section level3 function">
+<h3>get_all_vms</h3>
+<p>Return array of all VM uuids</p>
+<div id="usage-example-6" class="section level4">
+<h4>Usage example</h4>
+<pre class="sourceCode bash"><code class="sourceCode bash"><span class="kw">get_all_vms</span></code></pre>
+</div>
+<div id="parameters-8" class="section level4">
+<h4>Parameters</h4>
+<p><code>return</code> : array</p>
+</div>
+</div>
+<div id="set_all_vms" class="section level3 function">
+<h3>set_all_vms</h3>
+<p>Set all VMs in backup list</p>
+<div id="usage-example-7" class="section level4">
+<h4>Usage example</h4>
+<pre class="sourceCode bash"><code class="sourceCode bash"><span class="kw">set_all_vms</span></code></pre>
+</div>
+<div id="parameters-9" class="section level4">
+<h4>Parameters</h4>
+<p><code>return</code> : void</p>
+</div>
+</div>
+<div id="backup_vm_list" class="section level3 function">
+<h3>backup_vm_list</h3>
+<p>Backup VMs in vm_backup_list</p>
+<div id="usage-example-8" class="section level4">
+<h4>Usage example</h4>
+<pre class="sourceCode bash"><code class="sourceCode bash"><span class="kw">backup_vm_list</span></code></pre>
+</div>
+<div id="parameters-10" class="section level4">
+<h4>Parameters</h4>
+<p><code>return</code> : void</p>
+</div>
+</div>
+<div id="backup_vm" class="section level3 function">
+<h3>backup_vm</h3>
+<p>Backup a VM</p>
+<div id="usage-example-9" class="section level4">
+<h4>Usage example</h4>
+<pre class="sourceCode bash"><code class="sourceCode bash"><span class="kw">backup_vm</span> <span class="st">&quot;uuid&quot;</span></code></pre>
+</div>
+<div id="parameters-11" class="section level4">
+<h4>Parameters</h4>
+<p><code>string</code> : string: uuid</p>
+<p><code>return</code> : void</p>
+</div>
+</div>
+<div id="get_vm_label" class="section level3 function">
+<h3>get_vm_label</h3>
+<p>Return a VM label</p>
+<div id="usage-example-10" class="section level4">
+<h4>Usage example</h4>
+<pre class="sourceCode bash"><code class="sourceCode bash"><span class="kw">get_vm_label</span> <span class="st">&quot;uuid&quot;</span></code></pre>
+</div>
+<div id="parameters-12" class="section level4">
+<h4>Parameters</h4>
+<p><code>string</code> : string: uuid</p>
+<p><code>return</code> : string</p>
+</div>
+</div>
+<div id="get_vm_vdi" class="section level3 function">
+<h3>get_vm_vdi</h3>
+<p>Return a VM VDI uuid</p>
+<div id="usage-example-11" class="section level4">
+<h4>Usage example</h4>
+<pre class="sourceCode bash"><code class="sourceCode bash"><span class="kw">get_vm_vdi</span> <span class="st">&quot;uuid&quot;</span></code></pre>
+</div>
+<div id="parameters-13" class="section level4">
+<h4>Parameters</h4>
+<p><code>string</code> : string: uuid</p>
+<p><code>return</code> : string</p>
+</div>
+</div>
+<div id="get_vm_vbds" class="section level3 function">
+<h3>get_vm_vbds</h3>
+<p>Return a VM VBD uuid list</p>
+<div id="usage-example-12" class="section level4">
+<h4>Usage example</h4>
+<pre class="sourceCode bash"><code class="sourceCode bash"><span class="kw">get_vm_vbd</span> <span class="st">&quot;uuid&quot;</span></code></pre>
+</div>
+<div id="parameters-14" class="section level4">
+<h4>Parameters</h4>
+<p><code>string</code> : string: uuid</p>
+<p><code>return</code> : array</p>
+</div>
+</div>
+<div id="get_vbd_type" class="section level3 function">
+<h3>get_vbd_type</h3>
+<p>Return VBD type</p>
+<div id="usage-example-13" class="section level4">
+<h4>Usage example</h4>
+<pre class="sourceCode bash"><code class="sourceCode bash"><span class="kw">get_vbd_type</span> <span class="st">&quot;uuid&quot;</span></code></pre>
+</div>
+<div id="parameters-15" class="section level4">
+<h4>Parameters</h4>
+<p><code>string</code> : string: uuid</p>
+<p><code>return</code> : string</p>
+</div>
+</div>
+<div id="get_vbd_vdi_list" class="section level3 function">
+<h3>get_vbd_vdi_list</h3>
+<p>Return VDI uuids for VBD</p>
+<div id="usage-example-14" class="section level4">
+<h4>Usage example</h4>
+<pre class="sourceCode bash"><code class="sourceCode bash"><span class="kw">get_vbd_vdi_list</span> <span class="st">&quot;uuid&quot;</span></code></pre>
+</div>
+<div id="parameters-16" class="section level4">
+<h4>Parameters</h4>
+<p><code>string</code> : string: uuid</p>
+<p><code>return</code> : array</p>
+</div>
+</div>
+<div id="check_vdi_is_snapshot" class="section level3 function">
+<h3>check_vdi_is_snapshot</h3>
+<p>Check a VDI is for a snapshot</p>
+<div id="usage-example-15" class="section level4">
+<h4>Usage example</h4>
+<pre class="sourceCode bash"><code class="sourceCode bash"><span class="kw">check_vdi_is_snapshot</span> <span class="st">&quot;uuid&quot;</span></code></pre>
+</div>
+<div id="parameters-17" class="section level4">
+<h4>Parameters</h4>
+<p><code>string</code> : string: uuid</p>
+<p><code>return</code> : boolean</p>
+</div>
+</div>
+<div id="snapshot_vm" class="section level3 function">
+<h3>snapshot_vm</h3>
+<p>Snapshot a VM with quiesce if possible</p>
+<div id="usage-example-16" class="section level4">
+<h4>Usage example</h4>
+<pre class="sourceCode bash"><code class="sourceCode bash"><span class="kw">snapshot_vm</span> <span class="st">&quot;uuid&quot;</span></code></pre>
+</div>
+<div id="parameters-18" class="section level4">
+<h4>Parameters</h4>
+<p><code>string</code> : string: uuid</p>
+<p><code>string</code> : string: label</p>
+<p><code>return</code> : boolean</p>
+</div>
+</div>
+<div id="snapshot_vm_normal" class="section level3 function">
+<h3>snapshot_vm_normal</h3>
+<p>Snapshot a VM</p>
+<div id="usage-example-17" class="section level4">
+<h4>Usage example</h4>
+<pre class="sourceCode bash"><code class="sourceCode bash"><span class="kw">snapshot_vm_normal</span> <span class="st">&quot;uuid&quot;</span> <span class="st">&quot;label&quot;</span></code></pre>
+</div>
+<div id="parameters-19" class="section level4">
+<h4>Parameters</h4>
+<p><code>string</code> : string: uuid</p>
+<p><code>string</code> : string: label</p>
+<p><code>return</code> : boolean</p>
+</div>
+</div>
+<div id="snapshot_vm_quiesce" class="section level3 function">
+<h3>snapshot_vm_quiesce</h3>
+<p>Snapshot a VM with quiesce</p>
+<div id="usage-example-18" class="section level4">
+<h4>Usage example</h4>
+<pre class="sourceCode bash"><code class="sourceCode bash"><span class="kw">snapshot_vm_quiesce</span> <span class="st">&quot;uuid&quot;</span> <span class="st">&quot;label&quot;</span></code></pre>
+</div>
+<div id="parameters-20" class="section level4">
+<h4>Parameters</h4>
+<p><code>string</code> : string: uuid</p>
+<p><code>string</code> : string: label</p>
+<p><code>return</code> : boolean</p>
+</div>
+</div>
+<div id="export_vm" class="section level3 function">
+<h3>export_vm</h3>
+<p>Export a VM to a destination file</p>
+<div id="usage-example-19" class="section level4">
+<h4>Usage example</h4>
+<pre class="sourceCode bash"><code class="sourceCode bash"><span class="kw">export_vm</span> <span class="st">&quot;uuid&quot;</span> <span class="st">&quot;filename.xva&quot;</span></code></pre>
+</div>
+<div id="parameters-21" class="section level4">
+<h4>Parameters</h4>
+<p><code>string</code> : string: uuid</p>
+<p><code>string</code> : string: filename</p>
+<p><code>return</code> : boolean</p>
+</div>
+</div>
+<div id="disable_ha" class="section level3 function">
+<h3>disable_ha</h3>
+<p>Disable high availability</p>
+<div id="usage-example-20" class="section level4">
+<h4>Usage example</h4>
+<pre class="sourceCode bash"><code class="sourceCode bash"><span class="kw">disable_ha</span> <span class="st">&quot;uuid&quot;</span></code></pre>
+</div>
+<div id="parameters-22" class="section level4">
+<h4>Parameters</h4>
+<p><code>string</code> : string: uuid</p>
+<p><code>return</code> : boolean</p>
+</div>
+</div>
+<div id="remove_template" class="section level3 function">
+<h3>remove_template</h3>
+<p>Remove template param from VM</p>
+<div id="usage-example-21" class="section level4">
+<h4>Usage example</h4>
+<pre class="sourceCode bash"><code class="sourceCode bash"><span class="kw">remove_template</span> <span class="st">&quot;uuid&quot;</span></code></pre>
+</div>
+<div id="parameters-23" class="section level4">
+<h4>Parameters</h4>
+<p><code>string</code> : string: uuid</p>
+<p><code>return</code> : boolean</p>
+</div>
+</div>
+<div id="delete_vm" class="section level3 function">
+<h3>delete_vm</h3>
+<p>Delete a VM</p>
+<div id="usage-example-22" class="section level4">
+<h4>Usage example</h4>
+<pre class="sourceCode bash"><code class="sourceCode bash"><span class="kw">delete_vm</span> <span class="st">&quot;uuid&quot;</span></code></pre>
+</div>
+<div id="parameters-24" class="section level4">
+<h4>Parameters</h4>
+<p><code>string</code> : string: uuid</p>
+<p><code>return</code> : boolean</p>
+</div>
+</div>
+<div id="uninstall_vm" class="section level3 function">
+<h3>uninstall_vm</h3>
+<p>Uninstall (remove) a VM</p>
+<div id="usage-example-23" class="section level4">
+<h4>Usage example</h4>
+<pre class="sourceCode bash"><code class="sourceCode bash"><span class="kw">uninstall_vm</span> <span class="st">&quot;uuid&quot;</span></code></pre>
+</div>
+<div id="parameters-25" class="section level4">
+<h4>Parameters</h4>
+<p><code>string</code> : string: uuid</p>
+<p><code>return</code> : boolean</p>
+</div>
+</div>
+<div id="destroy_vdi" class="section level3 function">
+<h3>destroy_vdi</h3>
+<p>Destroy a VDI</p>
+<div id="usage-example-24" class="section level4">
+<h4>Usage example</h4>
+<pre class="sourceCode bash"><code class="sourceCode bash"><span class="kw">destroy_vdi</span> <span class="st">&quot;uuid&quot;</span></code></pre>
+</div>
+<div id="parameters-26" class="section level4">
+<h4>Parameters</h4>
+<p><code>string</code> : string: uuid</p>
+<p><code>return</code> : boolean</p>
+</div>
+</div>
+<div id="create_backup_folder" class="section level3 function">
+<h3>create_backup_folder</h3>
+<div id="usage-example-25" class="section level4">
+<h4>Usage example</h4>
+<pre class="sourceCode bash"><code class="sourceCode bash"><span class="kw">create_backup_folder</span></code></pre>
+<p>create backup folder <span class="math"><em>b</em><em>a</em><em>c</em><em>k</em><em>u</em><em>p</em><sub><em>d</em></sub><em>i</em><em>r</em><em>e</em><em>c</em><em>t</em><em>o</em><em>r</em><em>y</em>/</span>HOSTNAME/<span class="math"><em>y</em><em>e</em><em>a</em><em>r</em>/</span>mon/$day</p>
+</div>
+</div>
+<div id="check_backup_cifs" class="section level3 function">
+<h3>check_backup_cifs</h3>
+<div id="usage-example-26" class="section level4">
+<h4>Usage example</h4>
+<pre class="sourceCode bash"><code class="sourceCode bash"><span class="kw">check_backup_cifs</span></code></pre>
+<p>check mounted dir for backup. If not mounted exit script</p>
+</div>
+</div>
+<div id="add_to_backup_list_tag" class="section level3 function">
+<h3>add_to_backup_list_tag</h3>
+<div id="usage-example-27" class="section level4">
+<h4>Usage example</h4>
+<pre class="sourceCode bash"><code class="sourceCode bash"><span class="kw">add_to_backup_list_tag</span></code></pre>
+<p>add to list for backup all VMs with created tag in XenCenter</p>
+</div>
+</div>
+<div id="remove_old_backups" class="section level3 function">
+<h3>remove_old_backups</h3>
+<div id="usage-example-28" class="section level4">
+<h4>Usage example</h4>
+<pre class="sourceCode bash"><code class="sourceCode bash"><span class="kw">remove_old_backups</span></code></pre>
+<p>function remove old backups</p>
+<hr />
+</div>
+</div>
+</div>
+</div>
+</div>
+</body>
+
