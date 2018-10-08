@@ -1,10 +1,11 @@
 #!/bin/bash
+# mod: backup.so
 
 #
-# log_enable
-# Enable and start logging
-# @use log_enable
-# @return void
+# fun: log_enable
+# txt: Enable and start logging
+# use: log_enable
+# opt: return: void
 #
 
 function log_enable
@@ -17,11 +18,11 @@ function log_enable
 
 
 #
-# log_message
-# Add message to the log
-# @use log_message "message"
-# @param string	Message
-# @return void
+# fun: log_message
+# txt: Add message to the log
+# use: log_message "message"
+# opt: string:	Message
+# opt: return: void
 #
 
 function log_message
@@ -31,26 +32,25 @@ function log_message
 
 
 #
-# add_to_backup_list
-# Add a new VM to the backup list
-# @use add_to_backup_list "uuid"
-# @param string	VM uuid
-# @return void
+# fun: add_to_backup_list
+# txt: Add a new VM to the backup list
+# use: add_to_backup_list "uuid"
+# opt: string:	VM uuid
+# opt: return: void
 #
 
 function add_to_backup_list
 {
 	log_message "Add to backup list: $1"
 	vm_backup_list[${#vm_backup_list[@]}]=$1
-#echo vm_backup_list[${#vm_backup_list[@]}]=$1
 }
 
 
 #
-# reset_backup_list
-# Remove all VMs from the backup list
-# @use reset_backup_list
-# @return void
+# fun: reset_backup_list
+# txt: Remove all VMs from the backup list
+# use: reset_backup_list
+# opt: return: void
 #
 
 function reset_backup_list
@@ -61,10 +61,10 @@ function reset_backup_list
 
 
 #
-# get_running_vms
-# Return array of running VM uuids
-# @use get_running_vms
-# @return array
+# fun: get_running_vms
+# txt: Return array of running VM uuids
+# use: get_running_vms
+# opt: return: array
 #
 
 function get_running_vms
@@ -82,10 +82,10 @@ function get_running_vms
 
 
 #
-# set_running_vms
-# Set running VMs in backup list
-# @use set_running_vms
-# @return void
+# fun: set_running_vms
+# txt: Set running VMs in backup list
+# use: set_running_vms
+# opt: return: void
 #
 
 function set_running_vms
@@ -106,10 +106,10 @@ function set_running_vms
 
 
 #
-# get_all_vms
-# Return array of all VM uuids
-# @use get_all_vms
-# @return array
+# fun: get_all_vms
+# txt: Return array of all VM uuids
+# use: get_all_vms
+# opt: return: array
 #
 
 function get_all_vms
@@ -127,10 +127,10 @@ function get_all_vms
 
 
 #
-# set_all_vms
-# Set all VMs in backup list
-# @use set_all_vms
-# @return void
+# fun: set_all_vms
+# txt: Set all VMs in backup list
+# use: set_all_vms
+# opt: return: void
 #
 
 function set_all_vms
@@ -154,10 +154,10 @@ function set_all_vms
 
 
 #
-# backup_vm_list
-# Backup VMs in vm_backup_list
-# @use backup_vm_list
-# @return void
+# fun: backup_vm_list
+# txt: Backup VMs in vm_backup_list
+# use: backup_vm_list
+# opt: return: void
 #
 
 function backup_vm_list
@@ -176,11 +176,11 @@ function backup_vm_list
 }
 
 #
-# backup_vm
-# Backup a VM
-# @use backup_vm "uuid"
-# @param string	uuid
-# @return void
+# fun: backup_vm
+# txt: Backup a VM
+# use: backup_vm "uuid"
+# opt: string:	uuid
+# opt: return: void
 #
 
 function backup_vm
@@ -249,11 +249,11 @@ function backup_vm
 
 
 #
-# get_vm_label
-# Return a VM label
-# @use get_vm_label "uuid"
-# @param string	uuid
-# @return string
+# fun: get_vm_label
+# txt: Return a VM label
+# use: get_vm_label "uuid"
+# opt: string:	uuid
+# opt: return: string
 #
 
 function get_vm_label
@@ -271,11 +271,11 @@ function get_vm_label
 
 
 #
-# get_vm_vdi
-# Return a VM VDI uuid
-# @use get_vm_vdi "uuid"
-# @param string	uuid
-# @return string
+# fun: get_vm_vdi
+# txt: Return a VM VDI uuid
+# use: get_vm_vdi "uuid"
+# opt: string:	uuid
+# opt: return: string
 #
 
 function get_vm_vdi
@@ -334,11 +334,11 @@ function get_vm_vdi
 
 
 #
-# get_vm_vbds
-# Return a VM VBD uuid list
-# @use get_vm_vbd "uuid"
-# @param string	uuid
-# @return array
+# fun: get_vm_vbds
+# txt: Return a VM VBD uuid list
+# use: get_vm_vbd "uuid"
+# opt: string:	uuid
+# opt: return: array
 #
 
 function get_vm_vbds
@@ -356,11 +356,11 @@ function get_vm_vbds
 
 
 #
-# get_vbd_type
-# Return VBD type
-# @use get_vbd_type "uuid"
-# @param string	uuid
-# @return string
+# fun: get_vbd_type
+# txt: Return VBD type
+# use: get_vbd_type "uuid"
+# opt: string:	uuid
+# opt: return: string
 #
 
 function get_vbd_type
@@ -378,11 +378,11 @@ function get_vbd_type
 
 
 #
-# get_vbd_vdi_list
-# Return VDI uuids for VBD
-# @use get_vbd_vdi_list "uuid"
-# @param string	uuid
-# @return array
+# fun: get_vbd_vdi_list
+# txt: Return VDI uuids for VBD
+# use: get_vbd_vdi_list "uuid"
+# opt: string:	uuid
+# opt: return: array
 #
 
 function get_vbd_vdi_list
@@ -400,11 +400,11 @@ function get_vbd_vdi_list
 
 
 #
-# check_vdi_is_snapshot
-# Check a VDI is for a snapshot
-# @use check_vdi_is_snapshot "uuid"
-# @param string	uuid
-# @return boolean
+# fun: check_vdi_is_snapshot
+# txt: Check a VDI is for a snapshot
+# use: check_vdi_is_snapshot "uuid"
+# opt: string:	uuid
+# opt: return: boolean
 #
 
 function check_vdi_is_snapshot
@@ -422,12 +422,12 @@ function check_vdi_is_snapshot
 
 
 #
-# snapshot_vm
-# Snapshot a VM with quiesce if possible
-# @use snapshot_vm "uuid"
-# @param string	uuid
-# @param string	label
-# @return boolean
+# fun: snapshot_vm
+# txt: Snapshot a VM with quiesce if possible
+# use: snapshot_vm "uuid"
+# opt: string:	uuid
+# opt: string:	label
+# opt: return: boolean
 #
 
 function snapshot_vm
@@ -453,12 +453,12 @@ function snapshot_vm
 
 
 #
-# snapshot_vm_normal
-# Snapshot a VM
-# @use snapshot_vm_normal "uuid" "label"
-# @param string	uuid
-# @param string	label
-# @return boolean
+# fun: snapshot_vm_normal
+# txt: Snapshot a VM
+# use: snapshot_vm_normal "uuid" "label"
+# opt: string:	uuid
+# opt: string:	label
+# opt: return: boolean
 #
 
 function snapshot_vm_normal
@@ -476,12 +476,12 @@ function snapshot_vm_normal
 
 
 #
-# snapshot_vm_quiesce
-# Snapshot a VM with quiesce
-# @use snapshot_vm_quiesce "uuid" "label"
-# @param string	uuid
-# @param string	label
-# @return boolean
+# fun: snapshot_vm_quiesce
+# txt: Snapshot a VM with quiesce
+# use: snapshot_vm_quiesce "uuid" "label"
+# opt: string:	uuid
+# opt: string:	label
+# opt: return: boolean
 #
 
 function snapshot_vm_quiesce
@@ -499,12 +499,12 @@ function snapshot_vm_quiesce
 
 
 #
-# export_vm
-# Export a VM to a destination file
-# @use export_vm "uuid" "filename.xva"
-# @param string	uuid
-# @param string	filename
-# @return boolean
+# fun: export_vm
+# txt: Export a VM to a destination file
+# use: export_vm "uuid" "filename.xva"
+# opt: string:	uuid
+# opt: string:	filename
+# opt: return: boolean
 #
 
 function export_vm
@@ -522,11 +522,11 @@ function export_vm
 
 
 #
-# disable_ha
-# Disable high availability
-# @use disable_ha "uuid"
-# @param string	uuid
-# @return boolean
+# fun: disable_ha
+# txt: Disable high availability
+# use: disable_ha "uuid"
+# opt: string:	uuid
+# opt: return: boolean
 #
 
 function disable_ha
@@ -544,11 +544,11 @@ function disable_ha
 
 
 #
-# remove_template
-# Remove template param from VM
-# @use remove_template "uuid"
-# @param string	uuid
-# @return boolean
+# fun: remove_template
+# txt: Remove template param from VM
+# use: remove_template "uuid"
+# opt: string:	uuid
+# opt: return: boolean
 #
 
 function remove_template
@@ -566,11 +566,11 @@ function remove_template
 
 
 #
-# delete_vm
-# Delete a VM
-# @use delete_vm "uuid"
-# @param string	uuid
-# @return boolean
+# fun: delete_vm
+# txt: Delete a VM
+# use: delete_vm "uuid"
+# opt: string:	uuid
+# opt: return: boolean
 #
 
 function delete_vm
@@ -612,11 +612,11 @@ function delete_vm
 
 
 #
-# uninstall_vm
-# Uninstall (remove) a VM
-# @use uninstall_vm "uuid"
-# @param string	uuid
-# @return boolean
+# fun: uninstall_vm
+# txt: Uninstall (remove) a VM
+# use: uninstall_vm "uuid"
+# opt: string:	uuid
+# opt: return: boolean
 #
 
 function uninstall_vm
@@ -634,11 +634,11 @@ function uninstall_vm
 
 
 #
-# destroy_vdi
-# Destroy a VDI
-# @use destroy_vdi "uuid"
-# @param string	uuid
-# @return boolean
+# fun: destroy_vdi
+# txt: Destroy a VDI
+# use: destroy_vdi "uuid"
+# opt: string:	uuid
+# opt: return: boolean
 #
 
 function destroy_vdi
@@ -654,28 +654,35 @@ function destroy_vdi
 	return 0
 }
 ######################################################################################################
-
+# fun: create_backup_folder
+# use: create_backup_folder 
+# txt: create backup folder $backup_directory/$HOSTNAME/$year/$mon/$day
+#
 function create_backup_folder
 {
         backup_dir="$backup_directory/$HOSTNAME/$year/$mon/$day"
         mkdir -p $backup_dir 2> log_message
 }
-
+#
+# fun: check_backup_cifs
+# use: check_backup_cifs 
+# txt: check mounted dir for backup. If not mounted exit script
+#
 function check_backup_cifs
 {
         mount_san=$(df -h | grep -c $backup_directory)
         if [ "$mount_san" -eq 0 ] ; then
-#               logger Storage mount ERROR -p user.error -t `basename "$0"`
-#echo "Storage mount ERROR"
                 log_message "Storage mount ERROR"
                 exit 1
         fi
 }
 
+# fun: add_to_backup_list_tag
+# use: add_to_backup_list_tag 
+# txt: add to list for backup all VMs with created tag in XenCenter
 function add_to_backup_list_tag
  {
         create_backup_folder
-#echo "function add_to_backup_list_tag"
 	if [ $used_pool == true ]; then
 		pool_param="pool"
 	else
@@ -683,7 +690,6 @@ function add_to_backup_list_tag
 	fi
 
         pool=$(xe $pool_param-list params=uuid --minimal 2> /dev/null)
-#        backup=$(xe pool-param-get uuid=${pool} param-name=other-config param-key=$backup_tag 2> /dev/null)
         pool_tags=$(xe $pool_param-param-get uuid=${pool} param-name=tags 2> /dev/null)
         if [ $? -eq 0 ] && ([[ ${pool_tags} == *$backup_tag* ]]); then
            VDS_UUID_ARRAY=`xe vm-list | grep uuid | awk '{ print $5 }'`
@@ -692,15 +698,14 @@ function add_to_backup_list_tag
 			vm_tags=$(xe vm-param-get uuid=${f} param-name=tags 2> /dev/null)
                         if [ $? -eq 0 ] && ([[ ${vm_tags} == *$backup_tag* ]]); then
 				add_to_backup_list ${f} 
-#echo "${f}"
                         fi
                 done
-#        else
-#echo "${pool_tags}"
 	fi
  }
 
-
+# fun: remove_old_backups
+# use: remove_old_backups
+# txt: function remove old backups 
 function remove_old_backups
  {
         remove_dir="$backup_directory/$HOSTNAME/$year/$mon"
@@ -717,5 +722,4 @@ function remove_old_backups
                 fi
         done
  }
-
 
